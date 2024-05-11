@@ -1,118 +1,60 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import one from "./assets/Images/1.png"
+import two from "./assets/Images/2.png"
+import three from "./assets/Images/3.png"
+import four from "./assets/Images/4.png"
+import five from "./assets/Images/5.png"
+import six from "./assets/Images/6.png"
+import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+export default function App() {
+  const count = [one,two,three,four,five,six]
+  const [no,setNo]=useState(1);
+  
+  const randomImg = ()=>{
+    const randomNo = Math.floor((Math.random()*6))
+    setNo(randomNo)
+    ReactNativeHapticFeedback.trigger("impactLight", options);
+    
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <View style={styles.mainContainer}>
+      <View style={styles.diceImg}>
+      <Image source={count[no]}/>
+      </View>
+      <TouchableOpacity onPress={randomImg}>
+        <View style={styles.btnContainer}>
+          <Text style={styles.btnText}>Roll the Dice</Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  mainContainer:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    gap:100,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  diceImg:{},
+  btnContainer:{
+    borderWidth:1,
+    borderColor:"#ffffff",
+    padding:5,
+    borderRadius:5,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+  btnText:{
+    fontSize:18,
+    fontWeight:"bold"
+  }
+})
